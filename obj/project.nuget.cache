@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "T8V2ZVRihgby0EMTBHCxtW/76y056O8nNq3Cg05IF7qO0yUcMyuSeHOTrnliNBMy+c377T1huiR5EnDBNnlW+Q==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello_Bot\\Othello_Bot.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\max.westerlund1\\.nuget\\packages\\raylib-cs\\4.2.0.1\\raylib-cs.4.2.0.1.nupkg.sha512",
+    "C:\\Users\\max.westerlund1\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
