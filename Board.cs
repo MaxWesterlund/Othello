@@ -36,7 +36,6 @@ public class Board
             {
                 currentSquare.Draw();
             }
-
             Raylib.EndDrawing();
         }
 
