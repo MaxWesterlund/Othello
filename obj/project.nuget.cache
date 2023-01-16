@@ -1,15 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "5b/nraUukCy2u9KOvcQoKRPkl9NqgbH5Rd8gXatLQtHbpiER4GBRzmSanDb4J+wb6Xw1nrPEnD3uaOs5QNfK6w==",
+  "dgSpecHash": "aNM9cub0F1FmEKZo1fnoEXAB7AwMxvhpDVKsMDPWZUKF/3N2SI2u77mOGqpnq0r62ryDirUh33kNNWabnkttuw==",
   "success": true,
-  "projectFilePath": "D:\\Github\\Othello\\Othello_Bot.csproj",
+  "projectFilePath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\maxwe\\.nuget\\packages\\raylib-cs\\4.2.0.1\\raylib-cs.4.2.0.1.nupkg.sha512",
-    "C:\\Users\\maxwe\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
-    "C:\\Users\\maxwe\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.11\\microsoft.netcore.app.ref.6.0.11.nupkg.sha512",
-    "C:\\Users\\maxwe\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.11\\microsoft.windowsdesktop.app.ref.6.0.11.nupkg.sha512",
-    "C:\\Users\\maxwe\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.11\\microsoft.aspnetcore.app.ref.6.0.11.nupkg.sha512",
-    "C:\\Users\\maxwe\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.11\\microsoft.netcore.app.host.win-x64.6.0.11.nupkg.sha512"
+    "C:\\Users\\max.westerlund1\\.nuget\\packages\\raylib-cs\\4.2.0.1\\raylib-cs.4.2.0.1.nupkg.sha512",
+    "C:\\Users\\max.westerlund1\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

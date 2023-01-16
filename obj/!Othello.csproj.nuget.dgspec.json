@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\Othello_Bot.csproj": {}
+    "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj": {}
   },
   "projects": {
-    "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\Othello_Bot.csproj": {
+    "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\Othello_Bot.csproj",
-        "projectName": "Othello_Bot",
-        "projectPath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\Othello_Bot.csproj",
+        "projectUniqueName": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj",
+        "projectName": "!Othello",
+        "projectPath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj",
         "packagesPath": "C:\\Users\\max.westerlund1\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\obj\\",
         "projectStyle": "PackageReference",
