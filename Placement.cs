@@ -5,11 +5,20 @@ using System.Numerics;
 public class Placement
 {
     public bool isBlacksTurn = true;
+    float prevTime = 0;
+    float botWaitTime = 0.3f;
     List<Square> affectedSquares = new();
 
     public void GetMouse()
     {
-        if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
+        if (!isBlacksTurn)
+        {
+            if ((float)Raylib.GetTime() - prevTime > botWaitTime)
+            {
+                TurnTiles(Bot.ChooseSquare(State.White), State.White);
+            }
+        }
+        else if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
             foreach (Square currentSquare in Setup.board.squares)
             {
@@ -20,10 +29,7 @@ public class Placement
                     {
                         TurnTiles(currentSquare, State.Black);
                     }
-                    else
-                    {
-                        TurnTiles(Bot.ChooseSquare(State.White), State.White);
-                    }
+                    prevTime = (float)Raylib.GetTime();    
                 }
             }
         }
@@ -34,7 +40,6 @@ public class Placement
         affectedSquares.Clear();
         int originalIndex = Array.IndexOf(Setup.board.squares, originalSquare);
         Square currentSquare = Setup.board.squares[originalIndex];
-
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 1));
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -1));
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 8));
@@ -61,8 +66,6 @@ public class Placement
 
     public List<Square> Fill(Square startSquare, State state, int startIndex, int jump)
     {
-        // Problem: Issues with wrapping around making wrong tiles turn.
-
         if (startSquare.state != State.Empty)
         {
             return new List<Square>();
@@ -71,6 +74,7 @@ public class Placement
         bool shouldTurn = false;
         List<Square> localAffectedSquares = new();
         int index = startIndex + jump;
+        int prevIndex = index - jump;
         if (index >= 63 || index <= 0)
         {
             return new List<Square>();
@@ -83,6 +87,11 @@ public class Placement
             {
                 return new List<Square>();
             }
+            if (Math.Abs(Setup.board.squares[index].xPos - Setup.board.squares[prevIndex].xPos) > 1 ||
+                Math.Abs(Setup.board.squares[index].yPos - Setup.board.squares[prevIndex].yPos) > 1)
+            {
+                return new List<Square>();
+            }   
             currentSquare = Setup.board.squares[index];
             if (currentSquare.state == state)
             {
@@ -93,7 +102,8 @@ public class Placement
             {
                 localAffectedSquares.Add(currentSquare);
             }
-            index += jump;
+            prevIndex = index;
+            index += jump;   
         }
         if (shouldTurn)
         {
