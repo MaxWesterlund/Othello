@@ -4,7 +4,7 @@ using System.Numerics;
 
 public class Placement
 {
-    bool isBlacksTurn = true;
+    public bool isBlacksTurn = true;
     List<Square> affectedSquares = new();
 
     public void GetMouse()
@@ -15,18 +15,14 @@ public class Placement
             {
                 if (Raylib.GetMouseX() > currentSquare.xPos * Square.size && Raylib.GetMouseX() < currentSquare.xPos * Square.size + Square.size &&
                     Raylib.GetMouseY() > currentSquare.yPos * Square.size && Raylib.GetMouseY() < currentSquare.yPos * Square.size + Square.size)
-                {
-                    if (currentSquare.state != State.Empty)
-                    {
-                        return;
-                    }                  
+                {                
                     if (isBlacksTurn)
                     {
                         TurnTiles(currentSquare, State.Black);
                     }
-                    else 
+                    else
                     {
-                        TurnTiles(currentSquare, State.White);
+                        TurnTiles(Bot.ChooseSquare(State.White), State.White);
                     }
                 }
             }
@@ -35,17 +31,19 @@ public class Placement
 
     void TurnTiles(Square originalSquare, State state)
     {
+        affectedSquares.Clear();
         int originalIndex = Array.IndexOf(Setup.board.squares, originalSquare);
         Square currentSquare = Setup.board.squares[originalIndex];
-        Fill(currentSquare, state, originalIndex, 1);
-        Fill(currentSquare, state, originalIndex, -1);
-        Fill(currentSquare, state, originalIndex, 8);
-        Fill(currentSquare, state, originalIndex, -8);
-        Fill(currentSquare, state, originalIndex, 7);
-        Fill(currentSquare, state, originalIndex, -7);
-        Fill(currentSquare, state, originalIndex, 9);
-        Fill(currentSquare, state, originalIndex, -9);
-        Console.WriteLine(affectedSquares.Count);
+
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 1));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -1));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 8));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -8));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 7));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -7));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 9));
+        affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -9));
+
         foreach (Square sqr in affectedSquares)
         {
             sqr.state = state;
@@ -54,18 +52,28 @@ public class Placement
         {
             return;
         }
-        affectedSquares.Clear();
+        else
+        {
+            originalSquare.state = state;
+        }
         isBlacksTurn = !isBlacksTurn;
     }
 
-    void Fill(Square startSquare, State state, int startIndex, int jump)
+    public List<Square> Fill(Square startSquare, State state, int startIndex, int jump)
     {
+        // Problem: Issues with wrapping around making wrong tiles turn.
+
+        if (startSquare.state != State.Empty)
+        {
+            return new List<Square>();
+        } 
+
         bool shouldTurn = false;
         List<Square> localAffectedSquares = new();
         int index = startIndex + jump;
         if (index >= 63 || index <= 0)
         {
-            return;
+            return new List<Square>();
         }
 
         Square currentSquare = Setup.board.squares[index];
@@ -73,7 +81,7 @@ public class Placement
         {
             if (index >= 63 || index <= 0)
             {
-                return;
+                return new List<Square>();
             }
             currentSquare = Setup.board.squares[index];
             if (currentSquare.state == state)
@@ -92,8 +100,10 @@ public class Placement
             affectedSquares.AddRange(localAffectedSquares);
             if (localAffectedSquares.Count > 0)
             {
-                startSquare.state = state;
+                localAffectedSquares.Add(startSquare);
             }
+            return localAffectedSquares;
         }
+        return new List<Square>();
     }
 }
