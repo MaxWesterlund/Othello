@@ -1,8 +1,9 @@
 using Raylib_cs;
+using System.Numerics;
 
 public class Board
 {
-    public Square[] squares = new Square[] {
+    public static Square[] squares = new Square[] {
         new Square(0, 0), new Square(1, 0), new Square(2, 0), new Square(3, 0),
         new Square(4, 0), new Square(5, 0), new Square(6, 0), new Square(7, 0),
         new Square(0, 1), new Square(1, 1), new Square(2, 1), new Square(3, 1), 
@@ -20,29 +21,55 @@ public class Board
         new Square(0, 7), new Square(1, 7), new Square(2, 7), new Square(3, 7), 
         new Square(4, 7), new Square(5, 7), new Square(6, 7), new Square(7, 7)
     };
-}
 
-public class Setup
-{
-    public static Board board = new();
-
-    public void MakeBoard()
+    public void Draw()
     {
         Raylib.BeginDrawing();
         Raylib.ClearBackground(new Color(36, 102, 36, 255));
-        foreach (Square currentSquare in board.squares)
+        foreach (Square currentSquare in squares)
         {
-            currentSquare.Draw();
+            currentSquare.DrawSquares();
         }
+        DrawStatus();
         Raylib.EndDrawing();
     }
 
-    public static void BoardSetup()
+    void DrawStatus()
     {
-        board.squares[27].state = State.White;
-        board.squares[28].state = State.Black;
-        board.squares[35].state = State.Black;
-        board.squares[36].state = State.White;
+        Raylib.DrawCircle(720, 64, 32, Color.BLACK);       
+        int blackMargin = Raylib.MeasureText(PointsCounter()[0].ToString(), 40);
+        Raylib.DrawText(PointsCounter()[0].ToString(), (int)(720f - blackMargin/2f), 104, 40, Color.BLACK);
+        Raylib.DrawCircle(720, 194, 32, Color.WHITE);
+        int whiteMargin = Raylib.MeasureText(PointsCounter()[1].ToString(), 40);
+        Raylib.DrawText(PointsCounter()[1].ToString(), (int)(720f - whiteMargin/2f), 234, 40, Color.WHITE);
+    }
+
+    public void BoardSetup()
+    {
+        squares[27].state = State.White;
+        squares[28].state = State.Black;
+        squares[35].state = State.Black;
+        squares[36].state = State.White;
+    }
+
+    int[] PointsCounter()
+    {
+        int blackPoints = 0;
+        int whitePoints = 0;
+        foreach (Square currentSquare in squares)
+        {
+            switch (currentSquare.state)
+            {
+                case State.Black:
+                    blackPoints += 1;
+                    break;
+                
+                case State.White:
+                    whitePoints += 1;
+                    break;
+            }
+        }
+        return new int[] {blackPoints, whitePoints};
     }
 }
 
@@ -73,17 +100,17 @@ public class Square
         yPos = y;
     }
 
-    public void Draw()
+    public void DrawSquares()
     {
-        Raylib.DrawRectangle(xPos * size + margin / 2, yPos * size + margin / 2, size - margin, size - margin, new Color(51, 138, 51, 255));
+        Raylib.DrawRectangle(xPos * size + margin, yPos * size + margin, size - margin, size - margin, new Color(51, 138, 51, 255));
         switch (state)
         {
             case State.Black:
-                Raylib.DrawCircle((xPos * 10 + 5) * (size / 10), (yPos * 10 + 5) * (size / 10), size / 2 - 8, Color.BLACK);
+                Raylib.DrawCircle((xPos * 10 + 5) * (size / 10) + margin / 2, (yPos * 10 + 5) * (size / 10) + margin / 2, size / 2 - 8, Color.BLACK);
                 break;
 
             case State.White:
-                Raylib.DrawCircle((xPos * 10 + 5) * (size / 10), (yPos * 10 + 5) * (size / 10), size / 2 - 8, Color.WHITE);
+                Raylib.DrawCircle((xPos * 10 + 5) * (size / 10) + margin / 2, (yPos * 10 + 5) * (size / 10) + margin / 2, size / 2 - 8, Color.WHITE);
                 break;
         }
     }

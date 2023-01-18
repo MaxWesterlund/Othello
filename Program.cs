@@ -2,15 +2,15 @@
 
 class Program
 {
+    static Board board = new();
     static Placement placement = new();
-    static Setup setup = new();
     static void Main()
     {
-        Raylib.InitWindow(640, 640, "Othello Bot");
-        Setup.BoardSetup();
+        Raylib.InitWindow(800, 800, "Othello Bot");
+        board.BoardSetup();
         while (!Raylib.WindowShouldClose())
         {
-            setup.MakeBoard();
+            board.Draw();
             placement.GetMouse();
         }
         Raylib.CloseWindow();

@@ -1,9 +1,8 @@
 using Raylib_cs;
-using System;
-using System.Numerics;
 
 public class Placement
 {
+    Board board = new();
     public bool isBlacksTurn = true;
     float prevTime = 0;
     float botWaitTime = 0.3f;
@@ -20,7 +19,7 @@ public class Placement
         }
         else if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
         {
-            foreach (Square currentSquare in Setup.board.squares)
+            foreach (Square currentSquare in Board.squares)
             {
                 if (Raylib.GetMouseX() > currentSquare.xPos * Square.size && Raylib.GetMouseX() < currentSquare.xPos * Square.size + Square.size &&
                     Raylib.GetMouseY() > currentSquare.yPos * Square.size && Raylib.GetMouseY() < currentSquare.yPos * Square.size + Square.size)
@@ -37,9 +36,16 @@ public class Placement
 
     void TurnTiles(Square originalSquare, State state)
     {
+        if (!Board.squares.Contains(originalSquare))
+        {
+            Console.WriteLine("no contain");
+            isBlacksTurn = !isBlacksTurn;
+            return;
+        }
+        
         affectedSquares.Clear();
-        int originalIndex = Array.IndexOf(Setup.board.squares, originalSquare);
-        Square currentSquare = Setup.board.squares[originalIndex];
+        int originalIndex = Array.IndexOf(Board.squares, originalSquare);
+        Square currentSquare = Board.squares[originalIndex];
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 1));
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -1));
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 8));
@@ -55,12 +61,14 @@ public class Placement
         }
         if (affectedSquares.Count == 0)
         {
+            Console.WriteLine("no count");
             return;
         }
         else
         {
             originalSquare.state = state;
         }
+        Console.WriteLine("switch");
         isBlacksTurn = !isBlacksTurn;
     }
 
@@ -69,7 +77,7 @@ public class Placement
         if (startSquare.state != State.Empty)
         {
             return new List<Square>();
-        } 
+        }
 
         bool shouldTurn = false;
         List<Square> localAffectedSquares = new();
@@ -80,19 +88,19 @@ public class Placement
             return new List<Square>();
         }
 
-        Square currentSquare = Setup.board.squares[index];
+        Square currentSquare = Board.squares[index];
         while (currentSquare.state != State.Empty && currentSquare != null)
         {
             if (index >= 63 || index <= 0)
             {
                 return new List<Square>();
             }
-            if (Math.Abs(Setup.board.squares[index].xPos - Setup.board.squares[prevIndex].xPos) > 1 ||
-                Math.Abs(Setup.board.squares[index].yPos - Setup.board.squares[prevIndex].yPos) > 1)
+            if (Math.Abs(Board.squares[index].xPos - Board.squares[prevIndex].xPos) > 1 ||
+                Math.Abs(Board.squares[index].yPos - Board.squares[prevIndex].yPos) > 1)
             {
                 return new List<Square>();
             }   
-            currentSquare = Setup.board.squares[index];
+            currentSquare = Board.squares[index];
             if (currentSquare.state == state)
             {
                 shouldTurn = true;
@@ -103,7 +111,7 @@ public class Placement
                 localAffectedSquares.Add(currentSquare);
             }
             prevIndex = index;
-            index += jump;   
+            index += jump;
         }
         if (shouldTurn)
         {
