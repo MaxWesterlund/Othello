@@ -3,6 +3,7 @@ using System.Numerics;
 
 public class Board
 {
+
     public static Square[] squares = new Square[] {
         new Square(0, 0), new Square(1, 0), new Square(2, 0), new Square(3, 0),
         new Square(4, 0), new Square(5, 0), new Square(6, 0), new Square(7, 0),
@@ -32,6 +33,11 @@ public class Board
         }
         DrawStatus();
         Raylib.EndDrawing();
+    }
+
+    public void DrawTurn(Color color, string str)
+    {
+        Raylib.DrawText(str, 32, 720, 40, color);
     }
 
     void DrawStatus()

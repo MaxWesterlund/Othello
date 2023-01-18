@@ -10,8 +10,13 @@ public class Placement
 
     public void GetMouse()
     {
+        if (isBlacksTurn)
+        {
+            board.DrawTurn(Color.BLACK, "Black's Turn");
+        }
         if (!isBlacksTurn)
         {
+            board.DrawTurn(Color.WHITE, "White's Turn");
             if ((float)Raylib.GetTime() - prevTime > botWaitTime)
             {
                 TurnTiles(Bot.ChooseSquare(State.White), State.White);
