@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Github\\Othello\\!Othello.csproj": {}
+    "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj": {}
   },
   "projects": {
-    "D:\\Github\\Othello\\!Othello.csproj": {
+    "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Github\\Othello\\!Othello.csproj",
+        "projectUniqueName": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj",
         "projectName": "!Othello",
-        "projectPath": "D:\\Github\\Othello\\!Othello.csproj",
-        "packagesPath": "C:\\Users\\maxwe\\.nuget\\packages\\",
-        "outputPath": "D:\\Github\\Othello\\obj\\",
+        "projectPath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\!Othello.csproj",
+        "packagesPath": "C:\\Users\\max.westerlund1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\max.westerlund1\\Documents\\GitHub\\Othello\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\maxwe\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\max.westerlund1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -54,30 +61,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[6.0.11, 6.0.11]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

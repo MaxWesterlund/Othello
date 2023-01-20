@@ -38,6 +38,7 @@ public class Bot
                 keepMoves.Add(new Tuple<int, int>(possibleMoves[index].Item1, possibleMoves[index].Item2));
             }
         }
+        
         if (keepMoves.Count > 0)
         {
             possibleMoves = keepMoves;
