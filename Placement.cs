@@ -96,7 +96,7 @@ public class Placement
         Square currentSquare = Board.squares[index];
         while (currentSquare.state != State.Empty && currentSquare != null)
         {
-            if (index >= 63 || index <= 0)
+            if (index > 63 || index < 0)
             {
                 return new List<Square>();
             }
