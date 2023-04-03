@@ -1,53 +1,69 @@
 using Raylib_cs;
 
-public class Placement
-{
+public class Placement {
     Board board = new();
     public bool isBlacksTurn = true;
     float prevTime = 0;
     float botWaitTime = 0.3f;
     List<Square> affectedSquares = new();
 
-    public void GetMouse()
-    {
-        if (isBlacksTurn)
-        {
+    public void GetMouse() {
+        if (board.gameOver) {
+            return;
+        }
+        if (isBlacksTurn) {
             board.DrawTurn(Color.BLACK, "Black's Turn");
         }
-        if (!isBlacksTurn)
-        {
+        if (!isBlacksTurn) {
             board.DrawTurn(Color.WHITE, "White's Turn");
-            if ((float)Raylib.GetTime() - prevTime > botWaitTime)
-            {
+            if ((float)Raylib.GetTime() - prevTime > botWaitTime) {
                 TurnTiles(Bot.ChooseSquare(State.White), State.White);
             }
         }
-        else if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT))
-        {
-            foreach (Square currentSquare in Board.squares)
-            {
+        else if (Raylib.IsMouseButtonPressed(MouseButton.MOUSE_BUTTON_LEFT)) {
+            foreach (Square currentSquare in Board.squares) {
                 if (Raylib.GetMouseX() > currentSquare.xPos * Square.size && Raylib.GetMouseX() < currentSquare.xPos * Square.size + Square.size &&
-                    Raylib.GetMouseY() > currentSquare.yPos * Square.size && Raylib.GetMouseY() < currentSquare.yPos * Square.size + Square.size)
-                {                
-                    if (isBlacksTurn)
-                    {
+                    Raylib.GetMouseY() > currentSquare.yPos * Square.size && Raylib.GetMouseY() < currentSquare.yPos * Square.size + Square.size) {                
+                    if (isBlacksTurn) {
                         TurnTiles(currentSquare, State.Black);
                     }
-                    prevTime = (float)Raylib.GetTime();    
+                    prevTime = (float)Raylib.GetTime();
                 }
             }
         }
     }
 
-    void TurnTiles(Square originalSquare, State state)
-    {
-        if (!Board.squares.Contains(originalSquare))
-        {
+    void TurnTiles(Square originalSquare, State state) {
+        if (!Board.squares.Contains(originalSquare)) {
             Console.WriteLine("no contain");
             isBlacksTurn = !isBlacksTurn;
             return;
         }
+
+        bool canMove = false;
+        for (int index = 0; index < 64; index++) {
+            List<Square> affectedSquares = new();
+
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, 1));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, -1));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, 8));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, -8));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, 7));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, -7));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, 9));
+            affectedSquares.AddRange(Fill(Board.squares[index], state, index, -9));
+
+            if (affectedSquares.Count > 0) {
+                canMove = true;
+                break;
+            }   
+        }
         
+        if (!canMove) {
+            isBlacksTurn = !isBlacksTurn;
+            return;
+        }
+
         affectedSquares.Clear();
         int originalIndex = Array.IndexOf(Board.squares, originalSquare);
         Square currentSquare = Board.squares[originalIndex];
@@ -60,27 +76,20 @@ public class Placement
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, 9));
         affectedSquares.AddRange(Fill(originalSquare, state, originalIndex, -9));
 
-        foreach (Square sqr in affectedSquares)
-        {
+        foreach (Square sqr in affectedSquares) {
             sqr.state = state;
         }
-        if (affectedSquares.Count == 0)
-        {
-            Console.WriteLine("no count");
+        if (affectedSquares.Count == 0) {
             return;
         }
-        else
-        {
+        else {
             originalSquare.state = state;
         }
-        Console.WriteLine("switch");
         isBlacksTurn = !isBlacksTurn;
     }
 
-    public List<Square> Fill(Square startSquare, State state, int startIndex, int jump)
-    {
-        if (startSquare.state != State.Empty)
-        {
+    public List<Square> Fill(Square startSquare, State state, int startIndex, int jump) {
+        if (startSquare.state != State.Empty) {
             return new List<Square>();
         }
 
@@ -88,45 +97,46 @@ public class Placement
         List<Square> localAffectedSquares = new();
         int index = startIndex + jump;
         int prevIndex = index - jump;
-        if (index >= 63 || index <= 0)
-        {
+        if (index >= 63 || index <= 0) {
             return new List<Square>();
         }
 
         Square currentSquare = Board.squares[index];
-        while (currentSquare.state != State.Empty && currentSquare != null)
-        {
-            if (index > 63 || index < 0)
-            {
+        while (currentSquare.state != State.Empty && currentSquare != null) {
+            if (index > 63 || index < 0) {
                 return new List<Square>();
             }
             if (Math.Abs(Board.squares[index].xPos - Board.squares[prevIndex].xPos) > 1 ||
-                Math.Abs(Board.squares[index].yPos - Board.squares[prevIndex].yPos) > 1)
-            {
+                Math.Abs(Board.squares[index].yPos - Board.squares[prevIndex].yPos) > 1) {
                 return new List<Square>();
             }   
             currentSquare = Board.squares[index];
-            if (currentSquare.state == state)
-            {
+            if (currentSquare.state == state){
                 shouldTurn = true;
                 break;
             }
-            else if (currentSquare.state != State.Empty)
-            {
+            else if (currentSquare.state != State.Empty) {
                 localAffectedSquares.Add(currentSquare);
             }
             prevIndex = index;
             index += jump;
         }
-        if (shouldTurn)
-        {
+        if (shouldTurn) {
             affectedSquares.AddRange(localAffectedSquares);
-            if (localAffectedSquares.Count > 0)
-            {
+            if (localAffectedSquares.Count > 0) {
                 localAffectedSquares.Add(startSquare);
             }
             return localAffectedSquares;
         }
         return new List<Square>();
+    }
+
+    bool IsPossibleMoves() {
+        for (int index = 0; index < 64; index++) {
+            if (Board.squares[index].state == State.Empty) {
+                return true;
+            }
+        }
+        return false;
     }
 }
